@@ -1,0 +1,37 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+      <h2>Transaction List</h2>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Transaction Reference</th>
+            <th>Value Date</th>
+            <th>Payer Name</th>
+            <th>Payer Account</th>
+            <th>Payee Name</th>            
+            <th>Payee Account</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Unprocessed Payment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions | async">
+            <td>{{transaction.id}}</td>
+            <td>{{transaction.transacRef}}</td>
+            <td>{{transaction.valDate}}</td>
+            <td>{{transaction.payerName}}</td>
+            <td>{{transaction.payerAccount}}</td>
+            <td>{{transaction.payeeName}}</td>
+            <td>{{transaction.payeeAccount}}</td>
+            <td>{{transaction.amount}}</td>
+            <td>{{transaction.status}}</td>   
+            <td>{{transaction.unprocessedPayment}}</td>      
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

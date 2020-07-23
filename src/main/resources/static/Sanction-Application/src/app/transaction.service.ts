@@ -1,0 +1,17 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TransactionService {
+
+  private baseUrl = 'http://localhost:8080/sanction-app/api/v1/transactions';
+
+  constructor(private http: HttpClient) { }
+
+  getTransactionsList(): Observable<any> {
+    return this.http.get(`${this.baseUrl}`);
+  }
+}

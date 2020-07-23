@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class TransactionService {
 
-  private baseUrl = 'http://localhost:8080/sanction-app/api/v1/transactions';
+  private baseUrl = 'http://localhost:8080/springboot-crud-rest/api/v1/transactions';
 
   constructor(private http: HttpClient) { }
 

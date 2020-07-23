@@ -27,7 +27,7 @@ public class Transaction {
     }
     
     public Transaction(String transacRef, String date, String payerName, String payerAccount, String payeeName,
-			String payeeAccount, String amount) {
+			String payeeAccount, String amount, String status, String unprocessedPayment) {
 		this.transacRef = transacRef;
 		this.date = date;
 		this.payerName = payerName;
@@ -35,8 +35,8 @@ public class Transaction {
 		this.payeeName = payeeName;
 		this.payeeAccount = payeeAccount;
 		this.amount = amount;
-		this.status = null;
-		this.unprocessedPayment =  null;
+		this.status = status;
+		this.unprocessedPayment =  unprocessedPayment;
 	}
  
     @Id

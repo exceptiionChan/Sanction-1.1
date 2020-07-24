@@ -1,7 +1,7 @@
 export class Transaction {
     id: number;
     transacRef: string;
-    valDate: string;
+    date: string;
     payerName: string;
     payerAccount: string;
     payeeName: string;

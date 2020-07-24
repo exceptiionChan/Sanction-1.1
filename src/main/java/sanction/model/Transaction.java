@@ -1,5 +1,11 @@
 package sanction.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -135,6 +141,76 @@ public class Transaction {
 				+ ", payerAccount=" + payerAccount + ", payeeName=" + payeeName + ", payeeAccount=" + payeeAccount
 				+ ", amount=" + amount + ", status=" + status + ", unprocessedPayment=" + unprocessedPayment + "]";
 	}
+	
+	public void validate() {		
+			
+		if ( checkDateFmt() &&
+				checkCurrDate() &&
+				checkName(payerName) && 
+				checkName(payeeName) &&
+				checkNumber(transacRef) &&
+				checkNumber(payerAccount) &&
+				checkNumber(payeeAccount) &&
+				checkAmount()) {
+			this.status = "PASS";			
+		}
+		else {
+			this.status = "FAIL";			
+		}		
+		
+	}
+	
+	private boolean checkDateFmt() {		
+		
+		if(this.date.matches("[0-9]{2}[0-9]{2}[0-9]{4}"))
+		{
+			//Initializing a format
+			SimpleDateFormat sdf=new SimpleDateFormat("ddMMyyyy");
+			sdf.setLenient(false);
+			
+			//Comparing valueDate with expected format
+			try {
+				Date valDate=sdf.parse(this.date);
+				return true;
+			} 
+			catch (ParseException e) {				
+				return false;
+			}
+		}		
+		return false;
+	}
+	
+	private boolean checkCurrDate() {
+		LocalDate localdate=LocalDate.now();
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("ddMMyyyy");
+		String d=dtf.format(localdate);
+		
+		return date.equals(d);
+		
+	}
+	
+	private boolean checkName(String name) {
+		return name != null && name.chars().allMatch(Character::isLetter) && name.length()<=35;		
+	}
+	
+	private boolean checkNumber(String num) {
+		return num != null && num.matches("^[a-zA-Z0-9]*$") && num.length()==12;		
+	}
+	
+	private boolean checkAmount() {	
+		//if (this.amount < 0.0) {
+		if(this.amount.charAt(0) == '-') {		
+			return false;
+		}
+			
+		//String[] amt_div = Float.toString(amount).split("\\.");
+		String[] amt_div = this.amount.split("\\.");
+			
+		if(amt_div[0].length() <= 10 && amt_div[1].length() <= 2) 
+			return true;
+		return false;
+	}
+		
 
  
 }

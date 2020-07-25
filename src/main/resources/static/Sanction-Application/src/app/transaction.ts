@@ -8,5 +8,5 @@ export class Transaction {
     payeeAccount: string;        
     amount: string;
     status: string;
-    unprocessedPayment: string;
+    rawPayment: string;
 }

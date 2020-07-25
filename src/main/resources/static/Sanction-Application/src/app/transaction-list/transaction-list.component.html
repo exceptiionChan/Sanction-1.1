@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
-      <h2>Transaction List</h2>
+      <h2>All Transactions</h2>
     </div>
     <div class="panel-body">
       <table class="table table-striped">
@@ -14,22 +14,31 @@
             <th>Payee Name</th>            
             <th>Payee Account</th>
             <th>Amount</th>
-            <th>Status</th>
-            <th>Unprocessed Payment</th>
+            <th>Status</th>            
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let transaction of transactions | async">
             <td>{{transaction.id}}</td>
-            <td>{{transaction.transacRef}}</td>
-            <td>{{transaction.date}}</td>
-            <td>{{transaction.payerName}}</td>
-            <td>{{transaction.payerAccount}}</td>
-            <td>{{transaction.payeeName}}</td>
-            <td>{{transaction.payeeAccount}}</td>
-            <td>{{transaction.amount}}</td>
+            
+            <td  colspan="7" *ngIf="transaction.rawPayment; else displayAll ">
+              <div class="row justify-content-center">
+                <a class="btn btn-primary outline">See Details</a> 
+              </div>   
+            </td>
+         
+            <ng-template #displayAll>
+              <td>{{transaction.transacRef}}</td>
+              <td>{{transaction.date}}</td>
+              <td>{{transaction.payerName}}</td>
+              <td>{{transaction.payerAccount}}</td>
+              <td>{{transaction.payeeName}}</td>
+              <td>{{transaction.payeeAccount}}</td>
+              <td>{{transaction.amount}}</td>
+            </ng-template>
+
             <td>{{transaction.status}}</td>   
-            <td>{{transaction.unprocessedPayment}}</td>      
+               
           </tr>
         </tbody>
       </table>

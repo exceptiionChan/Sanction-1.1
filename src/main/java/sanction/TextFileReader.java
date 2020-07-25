@@ -27,25 +27,23 @@ public class TextFileReader {
 	    	Transaction t = new Transaction();													
         
             //Split each transaction fields
-            String[] fields = line.split("\\s+");
-                   
-            //Split at digit-letter boundary         
-            String[] payer_Details=fields[0].split("(?<=\\d)(?=\\D)");
-            String[] payee_Details=fields[1].split("(?<=\\d)(?=\\D)");
-                                       
-            t.setTransacRef(fields[2]);
-            t.setDate(payer_Details[0].substring(12, 20));  
-            t.setPayerName(payer_Details[1]);  
-            t.setPayerAccount(payer_Details[0].substring(0, 12));                                                                                                             
-            t.setPayeeName(payee_Details[1]);                              
-            t.setPayeeAccount(payee_Details[0]);  
-            t.setAmount(fields[3]);
-            t.setUnprocessedPayment("-");
+            String[] splittedData = line.split("\\s+");
+                          
+            if(splittedData.length != 4)
+            	t.setRawPayment(line);           
+            else {
+	            t.setTransacRef(splittedData[0].substring(0, 12));
+	            t.setDate(splittedData[0].substring(12, 20));
+	            t.setPayerName(splittedData[0].substring(20));  
+	            t.setPayerAccount(splittedData[1].substring(0, 12));                                                                                                             
+	            t.setPayeeName(splittedData[1].substring(12));                              
+	            t.setPayeeAccount(splittedData[2]);  
+	            t.setAmount(splittedData[3]);          
+            }
                                                
-            t.validate();    
+            t.validate();
             
-            transactions.add(t);
-            
+            transactions.add(t);            
         }	    
         
 	    //Close Resources

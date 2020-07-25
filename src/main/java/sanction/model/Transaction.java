@@ -26,27 +26,22 @@ public class Transaction {
     private String payeeAccount;
     private String amount;
     private String status;
-    private String unprocessedPayment;
+    private String rawPayment;       
     
-    public Transaction() {
-    	  
-    }
-    
-    public Transaction(String transacRef, String date, String payerName, String payerAccount, String payeeName,
-			String payeeAccount, String amount, String status, String unprocessedPayment) {
-		this.transacRef = transacRef;
-		this.date = date;
-		this.payerName = payerName;
-		this.payerAccount = payerAccount;
-		this.payeeName = payeeName;
-		this.payeeAccount = payeeAccount;
-		this.amount = amount;
-		this.status = status;
-		this.unprocessedPayment =  unprocessedPayment;
-	}
+    /*public Transaction() {    	
+		this.transacRef = null;
+		this.date = null;
+		this.payerName = null;
+		this.payerAccount = null;
+		this.payeeName = null;
+		this.payeeAccount = null;
+		this.amount = null;
+		this.status = null;
+		this.rawPayment =  null;
+	}*/
  
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue()  //
         public long getId() {
         return id;
     }
@@ -54,7 +49,7 @@ public class Transaction {
         this.id = id;
     }
     
-    @Column(name = "transac_ref", nullable = false)
+    @Column(name = "transac_ref")
 	public String getTransacRef() {
 		return transacRef;
 	}
@@ -63,7 +58,7 @@ public class Transaction {
 		this.transacRef = transacRef;
 	}
 
-	@Column(name = "date", nullable = false)
+	@Column(name = "date")
 	public String getDate() {
 		return date;
 	}
@@ -72,7 +67,7 @@ public class Transaction {
 		this.date = date;
 	}
 
-	@Column(name = "payer_name", nullable = false)
+	@Column(name = "payer_name")
 	public String getPayerName() {
 		return payerName;
 	}
@@ -81,7 +76,7 @@ public class Transaction {
 		this.payerName = payerName;
 	}
 
-	@Column(name = "payer_account", nullable = false)
+	@Column(name = "payer_account")
 	public String getPayerAccount() {
 		return payerAccount;
 	}
@@ -90,7 +85,7 @@ public class Transaction {
 		this.payerAccount = payerAccount;
 	}
 
-	@Column(name = "payee_name", nullable = false)
+	@Column(name = "payee_name")
 	public String getPayeeName() {
 		return payeeName;
 	}
@@ -99,7 +94,7 @@ public class Transaction {
 		this.payeeName = payeeName;
 	}
 
-	@Column(name = "payee_account", nullable = false)
+	@Column(name = "payee_account")
 	public String getPayeeAccount() {
 		return payeeAccount;
 	}
@@ -108,7 +103,7 @@ public class Transaction {
 		this.payeeAccount = payeeAccount;
 	}
 
-	@Column(name = "amount", nullable = false)
+	@Column(name = "amount")
 	public String getAmount() {
 		return amount;
 	}
@@ -117,7 +112,7 @@ public class Transaction {
 		this.amount = amount;
 	}
 
-	@Column(name = "status", nullable = false)
+	@Column(name = "status")
 	public String getStatus() {
 		return status;
 	}
@@ -126,38 +121,49 @@ public class Transaction {
 		this.status = status;
 	}
 
-	@Column(name = "unprocessed_payment", nullable = false)
-	public String getUnprocessedPayment() {
-		return unprocessedPayment;
+	@Column(name = "raw_payment")
+	public String getRawPayment() {
+		return rawPayment;
 	}
 
-	public void setUnprocessedPayment(String unprocessedPayment) {
-		this.unprocessedPayment = unprocessedPayment;
+	public void setRawPayment(String rawPayment) {
+		this.rawPayment = rawPayment;
 	}
 	
 	@Override
 	public String toString() {
 		return "Transaction [id=" + id + ", transacRef=" + transacRef + ", date=" + date + ", payerName=" + payerName
 				+ ", payerAccount=" + payerAccount + ", payeeName=" + payeeName + ", payeeAccount=" + payeeAccount
-				+ ", amount=" + amount + ", status=" + status + ", unprocessedPayment=" + unprocessedPayment + "]";
+				+ ", amount=" + amount + ", status=" + status + ", rawPayment=" + rawPayment + "]";
 	}
 	
 	public void validate() {		
 			
-		if ( checkDateFmt() &&
-				checkCurrDate() &&
-				checkName(payerName) && 
-				checkName(payeeName) &&
-				checkNumber(transacRef) &&
+		if ( checkNumber(transacRef) &&
+				checkDate() &&
+				checkName(payerName) && 				
+				checkName(payeeName) &&				
 				checkNumber(payerAccount) &&
 				checkNumber(payeeAccount) &&
 				checkAmount()) {
-			this.status = "PASS";			
+			this.status = "Validate Pass";			
 		}
 		else {
-			this.status = "FAIL";			
+			this.status = "Validate Fail";			
 		}		
 		
+	}
+	
+	private boolean checkNumber(String number) {
+		return number != null && checkAlphaNumeric(number) && number.length() == 12;
+	}
+	
+	private boolean checkDate() {
+		return checkDateFmt() && checkCurrDate();
+	}
+	
+	private boolean checkName(String name) {
+		return checkAlphaNumeric(name) && name.length() <= 35;
 	}
 	
 	private boolean checkDateFmt() {		
@@ -171,6 +177,8 @@ public class Transaction {
 			//Comparing valueDate with expected format
 			try {
 				Date valDate=sdf.parse(this.date);
+				SimpleDateFormat dbformat = new SimpleDateFormat("dd/MM/yyyy");
+				this.date = dbformat.format(valDate);
 				return true;
 			} 
 			catch (ParseException e) {				
@@ -179,38 +187,29 @@ public class Transaction {
 		}		
 		return false;
 	}
-	
+		
 	private boolean checkCurrDate() {
-		LocalDate localdate=LocalDate.now();
-		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("ddMMyyyy");
-		String d=dtf.format(localdate);
+		LocalDate currentdate=LocalDate.now();
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		String d=dtf.format(currentdate);
 		
-		return date.equals(d);
+		return this.date.equals(d);		
+	}
+	
+	private boolean checkAlphaNumeric(String str) {
+		return str != null && str.matches("[a-zA-Z0-9]+");		
+	}
 		
-	}
-	
-	private boolean checkName(String name) {
-		return name != null && name.chars().allMatch(Character::isLetter) && name.length()<=35;		
-	}
-	
-	private boolean checkNumber(String num) {
-		return num != null && num.matches("^[a-zA-Z0-9]*$") && num.length()==12;		
-	}
-	
 	private boolean checkAmount() {	
-		//if (this.amount < 0.0) {
-		if(this.amount.charAt(0) == '-') {		
-			return false;
-		}
-			
-		//String[] amt_div = Float.toString(amount).split("\\.");
+		
+		if(this.amount.charAt(0) == '-')		
+			return false;		
+					
 		String[] amt_div = this.amount.split("\\.");
 			
 		if(amt_div[0].length() <= 10 && amt_div[1].length() <= 2) 
 			return true;
 		return false;
 	}
-		
 
- 
 }

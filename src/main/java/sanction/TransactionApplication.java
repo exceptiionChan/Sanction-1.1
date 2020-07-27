@@ -24,15 +24,12 @@ public class TransactionApplication {
 class DemoCommandLineRunner implements CommandLineRunner{
 
 	@Autowired
-	private TransactionRepository transactionRepository;
-
+	TextFileReader reader;
 	@Override
 	public void run(String... args) throws Exception {
 
-		TextFileReader reader = new TextFileReader();
-		List<Transaction> transactions = reader.getFileTransactions();
-		for(Transaction t : transactions)  
-			transactionRepository.save(t);
+		reader.getFileTransactions();
+		
 
 	}
 }

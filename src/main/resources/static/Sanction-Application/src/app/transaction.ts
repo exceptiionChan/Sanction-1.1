@@ -9,4 +9,5 @@ export class Transaction {
     amount: string;
     status: string;
     rawPayment: string;
+       
 }

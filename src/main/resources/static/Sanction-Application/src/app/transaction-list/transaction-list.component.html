@@ -1,3 +1,4 @@
+
 <div class="panel panel-primary">
     <div class="panel-heading">
       <h2>All Transactions</h2>
@@ -7,7 +8,7 @@
         <thead>
           <tr>
             <th>Id</th>
-            <th>Ref</th>
+            <th>Transaction Reference</th>
             <th>Value Date</th>
             <th>Payer Name</th>
             <th>Payer Account</th>
@@ -22,11 +23,11 @@
             <td>{{transaction.id}}</td>
             
             <td  colspan="7" *ngIf="transaction.rawPayment; else displayAll ">
-              <div class="row justify-content-center">
-                <a class="btn btn-primary outline">See Details</a> 
+              <div class="row justify-content-center">                            
+                <a [routerLink]="['/details',transaction.id]" class="btn btn-primary outline">See Details</a> 
               </div>   
             </td>
-         
+          <!-- routerLinkActive="active"-->
             <ng-template #displayAll>
               <td>{{transaction.transacRef}}</td>
               <td>{{transaction.date}}</td>

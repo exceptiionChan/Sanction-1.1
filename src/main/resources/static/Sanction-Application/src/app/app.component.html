@@ -1,19 +1,92 @@
 <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-  <!-- Links -->
-  <ul class="navbar-nav">
-    <li class="nav-item">
-        <a routerLink="transactions" class="nav-link" routerLinkActive="active">All Transactions</a>
-    </li>
+   <ul class="navbar-nav">
+      <li class="nav-item">
+          <a routerLink="transactions" class="nav-link" routerLinkActive="active">Home</a>
+      </li>
+   </ul>
+   <!-- <ul class="navbar-nav">  
+  </ul> -->
+  <ul class="navbar-nav ml-auto">
+     <div class="search-container">
+        <form action="/action_page.php">
+          <input type="text" placeholder="" name="search">
+          <button type="submit">search</button>
+        </form>
+      </div>
   </ul>
 </nav>
+
 <div class="container">
-  <br>   
-  <div class="card">
-    <div class="card-body">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+  <br>  
+  <div class="d-flex h-100">
+      <div class = "align-self-start mr-auto">
+         <input type = "file" file-model = "myFile"/><br>
+         <button ng-click = "uploadFile()">Upload</button>
+      </div>
+      <span class="custom-dropdown big align-self-end ml-auto">
+         <select>                
+            <option>Validation Pass</option>  
+            <option>Validation Fail</option>
+            <option>Sanction Pass</option>
+            <option>Sanction Fail</option>
+         </select>
+      </span>
+   </div>
+      <div class="card">
+         <div class="card-body">      
+            <router-outlet></router-outlet>
+         </div>
+      </div>
+   
 </div>
+
+
+
+
+<script>
+  var myApp = angular.module('myApp', []);
+  
+  myApp.directive('fileModel', ['$parse', function ($parse) {
+     return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+           var model = $parse(attrs.fileModel);
+           var modelSetter = model.assign;
+           
+           element.bind('change', function() {
+              scope.$apply(function() {
+                 modelSetter(scope, element[0].files[0]);
+              });
+           });
+        }
+     };
+  }]);
+  myApp.service('fileUpload', ['$https:', function ($https:) {
+     this.uploadFileToUrl = function(file, uploadUrl) {
+        var fd = new FormData();
+        fd.append('file', file);
+     
+        $https:.post(uploadUrl, fd, {
+           transformRequest: angular.identity,
+           headers: {'Content-Type': undefined}
+        })
+        .success(function() {
+        })
+        .error(function() {
+        });
+     }
+  }]);
+  myApp.controller('myCtrl', ['$scope', 'fileUpload', function($scope, fileUpload) {
+     $scope.uploadFile = function() {
+        
+        var file = $scope.myFile;
+        console.log('file is ' );
+        console.dir(file);
+        var uploadUrl = "/fileUpload";
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+     };
+  }]);
+</script>
 
 <footer class="footer">
   <div class="container">

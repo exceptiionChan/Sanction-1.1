@@ -14,7 +14,9 @@ export class TransactionListComponent implements OnInit {
   transactions: Observable<Transaction[]>;
 
   constructor(private transactionService: TransactionService,
-    private router: Router) { }
+  private router: Router) { }
+  
+  transaction : Transaction;
 
   ngOnInit(){
     this.reloadData();
@@ -24,5 +26,8 @@ export class TransactionListComponent implements OnInit {
     this.transactions = this.transactionService.getTransactionsList();
   }
 
+  route() {
+    this.router.navigate(['/details', this.transaction]);
+  }
 
 }

@@ -7,11 +7,22 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import sanction.model.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import sanction.model.Transaction;
+import sanction.repository.TransactionRepository;
+import sanction.service.ValidationService;
+
+@Component
 public class TextFileReader {
-	
-	public List<Transaction> getFileTransactions() throws IOException {
+	@Autowired
+	private ValidationService ts;
+	@Autowired
+	private TransactionRepository transactionRepository;
+
+	public void getFileTransactions() throws IOException {
+		
 		
 	    // Open text file.
 		ClassLoader classLoader = getClass().getClassLoader();
@@ -24,6 +35,9 @@ public class TextFileReader {
         // Read lines from file
 	    while((line = reader.readLine()) != null){
 	        
+	    	if(line.isEmpty())
+	    		continue;
+	    	
 	    	Transaction t = new Transaction();													
         
             //Split each transaction fields
@@ -41,16 +55,16 @@ public class TextFileReader {
 	            t.setAmount(splittedData[3]);          
             }
                                                
-            t.validate();
-            
-            transactions.add(t);            
+            ts.validate(t);
+            transactionRepository.save(t);
+            //transactions.add(t);            
         }	    
         
 	    //Close Resources
 	    reader.close();
 	    fr.close();
 	    
-	    return transactions;
+	    //return transactions;
     }
 }
 

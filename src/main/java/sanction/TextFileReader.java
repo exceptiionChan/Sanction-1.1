@@ -58,8 +58,8 @@ public class TextFileReader {
             }
                                                
             ts.validate(t);
-//            if(t.getStatus()=="Validate Pass")
-//            	t=ss.screenAll(t);
+            if(t.getStatus()=="Validate Pass")
+            	ss.screenAll(t);
             transactionRepository.save(t);           
         }	    
         

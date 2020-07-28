@@ -31,10 +31,10 @@
             
             <td  colspan="7" *ngIf="transaction.rawPayment; else displayAll ">
               <div class="row justify-content-center">                            
-                <a class="btn btn-primary outline">See Details</a>            
-              </div>               
+                <a [routerLink]="['/details',transaction.id]" class="btn btn-primary outline">See Details</a>            
+              </div>   
             </td>
-          
+          <!-- routerLinkActive="active"-->
             <ng-template #displayAll>
               <td>{{transaction.transacRef}}</td>
               <td>{{transaction.date}}</td>
@@ -44,9 +44,13 @@
               <td>{{transaction.payeeAccount}}</td>
               <td>{{transaction.amount}}</td>
             </ng-template>
-            
-            <td>{{transaction.status}}</td>
-
+                        
+            <div class="d-flex align-items-center">
+              <td>{{transaction.status}}</td>
+              <div *ngIf="transaction.status === 'Validate Pass'">                  
+                <button class="btn btn-primary btn-sm outline" style="margin-right: 10px;">Screen</button>
+              </div>
+            </div>
                
           </tr>
         </tbody>

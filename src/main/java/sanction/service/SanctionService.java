@@ -20,7 +20,7 @@ public class SanctionService {
 	@Autowired
 	private KeywordRepository keywordRepository;
 
-	public Transaction screenAll(Transaction t) {
+	public void screenAll(Transaction t) {
 
 		/*
 		 * List<Transaction> transactions =
@@ -29,29 +29,28 @@ public class SanctionService {
 		 * for(Transaction t:transactions) {
 		 */
 
-		int payeePercent = getPercent(t.getPayeeName());
-		int payerPercent = getPercent(t.getPayerName());
+		double payeePercent = getPercent(t.getPayeeName());
+		double payerPercent = getPercent(t.getPayerName());
 
 		System.out.println("PayeePercent =" + payeePercent);
 		System.out.println("PayerPercent =" + payerPercent);
 
-		int max = 0;
+		double max = 0;
 		max = payerPercent > payeePercent ? payerPercent : payeePercent;
 
 		System.out.println("Final percent = " + max);
 
 		t.setStatus(decideStatus(max));
 		System.out.println(t.getStatus());
-		return t;
 
 	}
 
-	private int getPercent(String name) {
+	private double getPercent(String name) {
 
 		List<Keyword> keywords = keywordRepository.findAll();
-		int max = 0;
+		double max = 0;
 		for (Keyword k : keywords) {
-			int percent = (int) (algoservice.getSimilarity(k.getName(), name.toLowerCase())) * 100;
+			double percent = algoservice.getSimilarity(k.getName(), name.toLowerCase());
 
 			if (max < percent) {
 				max = percent;
@@ -61,15 +60,15 @@ public class SanctionService {
 		return max;
 	}
 
-	private String decideStatus(int percent) {
+	private String decideStatus(double percent) {
 
-		if (percent <= 75) // cutoff to pass sanction screening
+		if (percent <= 0.75) 						// cutoff to pass sanction screening
 			return "Screen Pass";
 
-		else if (percent > 75 && percent <= 85) // region of possible sanction hits
+		else if (percent > 0.75 && percent <= 0.85) // region of possible sanction hits
 			return "Possible Screen Pass";
 
-		else // sanction hit
+		else 										// sanction hit
 			return "Screen Fail";
 	}
 

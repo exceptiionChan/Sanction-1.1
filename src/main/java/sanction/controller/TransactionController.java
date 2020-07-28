@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sanction.exception.ResourceNotFoundException;
-import sanction.model.Employee;
 import sanction.model.Transaction;
 import sanction.repository.TransactionRepository;
 import sanction.service.SanctionService;
@@ -42,11 +41,11 @@ public class TransactionController {
     }
     
     
-   /*@GetMapping("/transactions/screen")
+  /* @GetMapping("/transactions")
     public List<Transaction> screenAll(){
-    	//sanctionService.screenAll();
+    	sanctionService.screenAll();
     	return transactionRepository.findAll();
-    }*/
+   }*/
     
 
 }

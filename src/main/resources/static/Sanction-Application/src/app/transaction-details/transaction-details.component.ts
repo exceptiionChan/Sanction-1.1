@@ -10,17 +10,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class TransactionDetailsComponent implements OnInit {  
   
+  transaction: Transaction;
+
   constructor( private transactionService: TransactionService, private route: ActivatedRoute, private router: Router) { }
 
-  data = this.route.params.subscribe(data => {
-    console.log(data); 
-  })
-  
-  ngOnInit(){    
+  ngOnInit(){  
+    let id = this.route.snapshot.paramMap.get("id");
+    //this.transaction = this.transactionService.getTransaction(id);
   }
 
-  list(){
-    this.router.navigate(['/transactions']);
-  }
+  // list(){
+  //   this.router.navigate(['/transactions']);
+  // }
   
 }

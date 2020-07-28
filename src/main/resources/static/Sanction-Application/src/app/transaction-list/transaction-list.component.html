@@ -1,7 +1,14 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-      <h2>All Transactions</h2>
+      <div class="d-flex h-100">
+        <div class = "align-self-start mr-auto">
+          <h2>All Transactions</h2>
+        </div>
+        <div class="align-self-end ml-auto">
+          <button class="btn btn-primary outline" style="margin: 10px 20px;">Screen All</button> 
+        </div>
+      </div>
     </div>
     <div class="panel-body">
       <table class="table table-striped">
@@ -24,10 +31,10 @@
             
             <td  colspan="7" *ngIf="transaction.rawPayment; else displayAll ">
               <div class="row justify-content-center">                            
-                <a [routerLink]="['/details',transaction.id]" class="btn btn-primary outline">See Details</a> 
-              </div>   
+                <a class="btn btn-primary outline">See Details</a>            
+              </div>               
             </td>
-          <!-- routerLinkActive="active"-->
+          
             <ng-template #displayAll>
               <td>{{transaction.transacRef}}</td>
               <td>{{transaction.date}}</td>
@@ -37,8 +44,9 @@
               <td>{{transaction.payeeAccount}}</td>
               <td>{{transaction.amount}}</td>
             </ng-template>
+            
+            <td>{{transaction.status}}</td>
 
-            <td>{{transaction.status}}</td>   
                
           </tr>
         </tbody>

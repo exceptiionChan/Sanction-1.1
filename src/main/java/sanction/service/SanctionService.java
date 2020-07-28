@@ -1,91 +1,76 @@
 package sanction.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import sanction.model.Keyword;
+import sanction.model.Transaction;
+import sanction.repository.KeywordRepository;
+import sanction.repository.TransactionRepository;
+
+@Service
 public class SanctionService {
-	
-	public String getScreenStatus(String blockedKeyword, String name) {
-		double percent = getSimilarity( blockedKeyword , name.toLowerCase());
-    	System.out.println(""+percent);
-    	
-    	if(percent<=0.75) 										//cutoff to pass sanction screening    	
-    		return "Screen Pass";
-    
-    	else if(percent>0.75 && percent<=0.85)					//region of possible sanction hits
-    		return "Possible Screen Pass";
-    	
-    	else													//sanction hit
-    		return "Screen Fail";
+
+	@Autowired
+	private DistanceAlgoService algoservice;
+	@Autowired
+	private TransactionRepository transactionRepository;
+	@Autowired
+	private KeywordRepository keywordRepository;
+
+	public Transaction screenAll(Transaction t) {
+
+		/*
+		 * List<Transaction> transactions =
+		 * transactionRepository.findByStatus("Valid Pass");
+		 * 
+		 * for(Transaction t:transactions) {
+		 */
+
+		int payeePercent = getPercent(t.getPayeeName());
+		int payerPercent = getPercent(t.getPayerName());
+
+		System.out.println("PayeePercent =" + payeePercent);
+		System.out.println("PayerPercent =" + payerPercent);
+
+		int max = 0;
+		max = payerPercent > payeePercent ? payerPercent : payeePercent;
+
+		System.out.println("Final percent = " + max);
+
+		t.setStatus(decideStatus(max));
+		System.out.println(t.getStatus());
+		return t;
+
 	}
-	
-	private double getSimilarity(String s1, String s2) {
-        String longer = s1, shorter = s2;
-        if (s1.length() < s2.length()) {
-            longer = s2;
-            shorter = s1;
-        }
-        int longerLength = longer.length();
-        if (longerLength == 0) {
-            return 1.0; /* both strings have zero length */
-        }
-        return (longerLength - getLevenshteinDistance(longer, shorter)) / (double) longerLength;
-    }
-	
-	private int getLevenshteinDistance(String s, String t) {
-        if (s == null || t == null) {
-            throw new IllegalArgumentException("Strings must not be null");
-        }
 
-        int n = s.length(); // length of s
-        int m = t.length(); // length of t
+	private int getPercent(String name) {
 
-        if (n == 0) {
-            return m;
-        } else if (m == 0) {
-            return n;
-        }
+		List<Keyword> keywords = keywordRepository.findAll();
+		int max = 0;
+		for (Keyword k : keywords) {
+			int percent = (int) (algoservice.getSimilarity(k.getName(), name.toLowerCase())) * 100;
 
-        if (n > m) {
-            // swap the input strings to consume less memory
-            String tmp = s;
-            s = t;
-            t = tmp;
-            n = m;
-            m = t.length();
-        }
+			if (max < percent) {
+				max = percent;
+			}
+		}
 
-        int p[] = new int[n + 1]; //'previous' cost array, horizontally
-        int d[] = new int[n + 1]; // cost array, horizontally
-        int _d[]; //placeholder to assist in swapping p and d
+		return max;
+	}
 
-        // indexes into strings s and t
-        int i; // iterates through s
-        int j; // iterates through t
+	private String decideStatus(int percent) {
 
-        char t_j; // jth character of t
+		if (percent <= 75) // cutoff to pass sanction screening
+			return "Screen Pass";
 
-        int cost; // cost
+		else if (percent > 75 && percent <= 85) // region of possible sanction hits
+			return "Possible Screen Pass";
 
-        for (i = 0; i <= n; i++) {
-            p[i] = i;
-        }
+		else // sanction hit
+			return "Screen Fail";
+	}
 
-        for (j = 1; j <= m; j++) {
-            t_j = t.charAt(j - 1);
-            d[0] = j;
-
-            for (i = 1; i <= n; i++) {
-                cost = s.charAt(i - 1) == t_j ? 0 : 1;
-                // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
-                d[i] = Math.min(Math.min(d[i - 1] + 1, p[i] + 1), p[i - 1] + cost);
-            }
-
-            // copy current distance counts to 'previous row' distance counts
-            _d = p;
-            p = d;
-            d = _d;
-        }
-
-        // our last action in the above loop was to switch d and p, so p now 
-        // actually has the most recent cost counts
-        return p[n];
-    }
 }

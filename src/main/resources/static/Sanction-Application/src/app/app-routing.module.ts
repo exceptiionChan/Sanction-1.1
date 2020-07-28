@@ -5,8 +5,10 @@ import { TransactionDetailsComponent } from './transaction-details/transaction-d
 
 
 const routes: Routes = [
+  {path:"",redirectTo:"transactions", pathMatch: "full"},
   { path: 'transactions', component: TransactionListComponent },
-  { path: 'details/:id', component: TransactionDetailsComponent },
+  {path: 'details/:id', component: TransactionDetailsComponent },
+  // {path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

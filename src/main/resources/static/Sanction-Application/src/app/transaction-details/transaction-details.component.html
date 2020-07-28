@@ -1,17 +1,7 @@
-<h2>Transaction Details</h2> 
-
-<hr/>
 
 <div>
-    <label><b>ID: </b></label>{{ data }}
+   <label><b>Raw Transaction: </b></label> {{ transaction.rawPayment }}
 </div>
-<div>
-   <label><b>Raw Transaction: </b></label> 
-</div>
-<div>
-   <label><b>Status: </b></label> 
-</div>  
 
 <br>
-<br>
-<button (click)="list()" class="btn btn-primary">Back to Transaction List</button><br>
+<button routerLink="/transactions" class="btn btn-primary">Close Details</button><br>

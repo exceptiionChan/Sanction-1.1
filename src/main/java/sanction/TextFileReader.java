@@ -12,12 +12,15 @@ import org.springframework.stereotype.Component;
 
 import sanction.model.Transaction;
 import sanction.repository.TransactionRepository;
+import sanction.service.SanctionService;
 import sanction.service.ValidationService;
 
 @Component
 public class TextFileReader {
 	@Autowired
 	private ValidationService ts;
+	@Autowired
+	private SanctionService ss;
 	@Autowired
 	private TransactionRepository transactionRepository;
 
@@ -31,8 +34,7 @@ public class TextFileReader {
         BufferedReader reader = new BufferedReader(fr);	
 	    String line;	 	 
         
-	    List<Transaction> transactions = new LinkedList<Transaction>();
-        // Read lines from file
+	    // Read lines from file
 	    while((line = reader.readLine()) != null){
 	        
 	    	if(line.isEmpty())
@@ -56,15 +58,15 @@ public class TextFileReader {
             }
                                                
             ts.validate(t);
-            transactionRepository.save(t);
-            //transactions.add(t);            
+//            if(t.getStatus()=="Validate Pass")
+//            	t=ss.screenAll(t);
+            transactionRepository.save(t);           
         }	    
         
 	    //Close Resources
 	    reader.close();
 	    fr.close();
-	    
-	    //return transactions;
+	    	  
     }
 }
 

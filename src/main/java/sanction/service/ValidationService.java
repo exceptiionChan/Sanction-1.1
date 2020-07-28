@@ -22,7 +22,8 @@ public class ValidationService {
 	public void validate(Transaction t) {
 
 		boolean isValid = true;
-
+		
+		System.out.println(t.toString());
 		if (t.getTransacRef() == null || !checkNumber(t.getTransacRef())) {
 			isValid = false;
 			System.out.println("Transaction Ref not aplanumeric");
@@ -39,7 +40,7 @@ public class ValidationService {
 		}
 
 		try {
-			if (t.getDate() == null || !checkCurrDate(t.getDate())) {
+			if (t.getDate() == null || !isCurrDate(t.getDate())) {
 				isValid = false;
 				System.out.println("Date not Current");
 			}
@@ -121,7 +122,7 @@ public class ValidationService {
 		return date;
 	}
 
-	private boolean checkCurrDate(String date) throws ParseException {
+	private boolean isCurrDate(String date) throws ParseException {
 		LocalDate currentdate = LocalDate.now();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		String d = dtf.format(currentdate);

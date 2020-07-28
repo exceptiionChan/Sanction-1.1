@@ -11,5 +11,5 @@ import sanction.model.Transaction;
 public interface TransactionRepository extends JpaRepository<Transaction, Long>{
 	
 	List<Transaction> findByTransacRef(String transacRef); 
-
+	List<Transaction> findByStatus(String status);
 }

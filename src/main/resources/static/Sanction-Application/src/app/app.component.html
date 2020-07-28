@@ -24,11 +24,12 @@
          <button ng-click = "uploadFile()">Upload</button>
       </div>
       <span class="custom-dropdown big align-self-end ml-auto">
-         <select>                
+         <select>
+            <option selected disabled>Filter...</option>                
             <option>Validation Pass</option>  
             <option>Validation Fail</option>
-            <option>Sanction Pass</option>
-            <option>Sanction Fail</option>
+            <option>Screen Pass</option>
+            <option>Screen Fail</option>
          </select>
       </span>
    </div>
@@ -37,7 +38,6 @@
             <router-outlet></router-outlet>
          </div>
       </div>
-   
 </div>
 
 

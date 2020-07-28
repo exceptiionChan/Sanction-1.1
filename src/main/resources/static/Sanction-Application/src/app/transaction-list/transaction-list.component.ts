@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class TransactionListComponent implements OnInit {
 
   transactions: Observable<Transaction[]>;
-
+  
   constructor(private transactionService: TransactionService,
   private router: Router) { }
   
@@ -26,8 +26,8 @@ export class TransactionListComponent implements OnInit {
     this.transactions = this.transactionService.getTransactionsList();
   }
 
-  route() {
-    this.router.navigate(['/details', this.transaction]);
-  }
-
+  // route() {
+  //   this.router.navigate(['/details', this.transaction]);
+  // } 
+  
 }

@@ -8,12 +8,16 @@ import { Transaction } from './transaction';
 })
 export class TransactionService {
 
-  private baseUrl = 'http://localhost:8080/springboot-crud-rest/api/v1/transactions';
+  private baseUrl = 'http://localhost:8080/springboot-crud-rest/transactions';
 
   constructor(private http: HttpClient) { }
 
   getTransactionsList(): Observable<any> {
     return this.http.get(`${this.baseUrl}`);
+  }
+  
+  getTransaction(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
 
 }

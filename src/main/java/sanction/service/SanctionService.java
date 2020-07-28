@@ -20,28 +20,29 @@ public class SanctionService {
 	@Autowired
 	private KeywordRepository keywordRepository;
 
-	public void screenAll(Transaction t) {
+	public void screenAll() {
 
-		/*
-		 * List<Transaction> transactions =
-		 * transactionRepository.findByStatus("Valid Pass");
-		 * 
-		 * for(Transaction t:transactions) {
-		 */
+		List<Transaction> transactions = transactionRepository.findByStatus("Valid Pass");
 
-		double payeePercent = getPercent(t.getPayeeName());
-		double payerPercent = getPercent(t.getPayerName());
+		for (Transaction t : transactions) {
 
-		System.out.println("PayeePercent =" + payeePercent);
-		System.out.println("PayerPercent =" + payerPercent);
+			double payeePercent = getPercent(t.getPayeeName());
+			double payerPercent = getPercent(t.getPayerName());
 
-		double max = 0;
-		max = payerPercent > payeePercent ? payerPercent : payeePercent;
+			System.out.println("PayeePercent =" + payeePercent);
+			System.out.println("PayerPercent =" + payerPercent);
 
-		System.out.println("Final percent = " + max);
+			double max = 0;
+			max = payerPercent > payeePercent ? payerPercent : payeePercent;
 
-		t.setStatus(decideStatus(max));
-		System.out.println(t.getStatus());
+			System.out.println("Final percent = " + max);
+
+			t.setStatus(decideStatus(max));
+			System.out.println(t.getStatus());
+			
+			transactionRepository.save(t);
+
+		}
 
 	}
 
@@ -62,13 +63,13 @@ public class SanctionService {
 
 	private String decideStatus(double percent) {
 
-		if (percent <= 0.75) 						// cutoff to pass sanction screening
+		if (percent <= 0.75) // cutoff to pass sanction screening
 			return "Screen Pass";
 
 		else if (percent > 0.75 && percent <= 0.85) // region of possible sanction hits
 			return "Possible Screen Pass";
 
-		else 										// sanction hit
+		else // sanction hit
 			return "Screen Fail";
 	}
 

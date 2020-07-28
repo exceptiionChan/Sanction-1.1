@@ -57,12 +57,11 @@ public class TextFileReader {
 	            t.setAmount(splittedData[3]);          
             }
                                                
-            ts.validate(t);
-            if(t.getStatus()=="Validate Pass")
-            	ss.screenAll(t);
+            ts.validate(t);            
             transactionRepository.save(t);           
         }	    
-        
+        	   
+        ss.screenAll();
 	    //Close Resources
 	    reader.close();
 	    fr.close();

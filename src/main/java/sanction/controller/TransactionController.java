@@ -32,20 +32,20 @@ public class TransactionController {
         return transactionRepository.findAll();
     }
     
-    @GetMapping("/transactions/{id}")
-    public ResponseEntity<Transaction> getTransactionById(@PathVariable(value = "id") Long transactionId)
-        throws ResourceNotFoundException {
-        Transaction transaction = transactionRepository.findById(transactionId)
-          .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + transactionId));
-        return ResponseEntity.ok().body(transaction);
-    }
+//    @GetMapping("/transactions/{id}")
+//    public ResponseEntity<Transaction> getTransactionById(@PathVariable(value = "id") Long transactionId)
+//        throws ResourceNotFoundException {
+//        Transaction transaction = transactionRepository.findById(transactionId)
+//          .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + transactionId));
+//        return ResponseEntity.ok().body(transaction);
+//    }
     
     
-  /* @GetMapping("/transactions")
-    public List<Transaction> screenAll(){
-    	sanctionService.screenAll();
+   @GetMapping("/screen")
+   public List<Transaction> screenAll(){
+    	sanctionService.screenAll(); 
     	return transactionRepository.findAll();
-   }*/
+   }
     
 
 }

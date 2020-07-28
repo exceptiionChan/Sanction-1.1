@@ -12,22 +12,30 @@ import { Router } from '@angular/router';
 export class TransactionListComponent implements OnInit {
 
   transactions: Observable<Transaction[]>;
-  
-  constructor(private transactionService: TransactionService,
-  private router: Router) { }
-  
-  transaction : Transaction;
+  btncontent:string = "Show Details";
+  isClicked: boolean = false;
 
-  ngOnInit(){
+  constructor(private transactionService: TransactionService,
+    private router: Router) { }
+
+  ngOnInit() {
     this.reloadData();
   }
 
   reloadData() {
     this.transactions = this.transactionService.getTransactionsList();
   }
-
+  
+  toggleButtonContent(){
+    this.isClicked = !this.isClicked;
+    if(this.isClicked)
+      this.btncontent ="Close Details"    
+    else
+      this.btncontent ="Show Details"   
+  }
+  
   // route() {
   //   this.router.navigate(['/details', this.transaction]);
   // } 
-  
+
 }

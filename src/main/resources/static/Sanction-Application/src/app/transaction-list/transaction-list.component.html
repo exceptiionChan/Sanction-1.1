@@ -1,59 +1,53 @@
-
 <div class="panel panel-primary">
-    <div class="panel-heading">
-      <div class="d-flex h-100">
-        <div class = "align-self-start mr-auto">
-          <h2>All Transactions</h2>
-        </div>
-        <div class="align-self-end ml-auto">
-          <button class="btn btn-primary outline" style="margin: 10px 20px;">Screen All</button> 
-        </div>
-      </div>
-    </div>
-    <div class="panel-body">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Transaction Reference</th>
-            <th>Value Date</th>
-            <th>Payer Name</th>
-            <th>Payer Account</th>
-            <th>Payee Name</th>            
-            <th>Payee Account</th>
-            <th>Amount</th>
-            <th>Status</th>            
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let transaction of transactions | async">
-            <td>{{transaction.id}}</td>
-            
-            <td  colspan="7" *ngIf="transaction.rawPayment; else displayAll ">
-              <div class="row justify-content-center">                            
-                <a [routerLink]="['/details',transaction.id]" class="btn btn-primary outline">See Details</a>            
-              </div>   
-            </td>
-          <!-- routerLinkActive="active"-->
-            <ng-template #displayAll>
-              <td>{{transaction.transacRef}}</td>
-              <td>{{transaction.date}}</td>
-              <td>{{transaction.payerName}}</td>
-              <td>{{transaction.payerAccount}}</td>
-              <td>{{transaction.payeeName}}</td>
-              <td>{{transaction.payeeAccount}}</td>
-              <td>{{transaction.amount}}</td>
-            </ng-template>
-                        
-            <div class="d-flex align-items-center">
-              <td>{{transaction.status}}</td>
-              <div *ngIf="transaction.status === 'Validate Pass'">                  
-                <button class="btn btn-primary btn-sm outline" style="margin-right: 10px;">Screen</button>
-              </div>
-            </div>
-               
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="panel-heading">
+    <h2>All Transactions</h2>
   </div>
+</div>
+
+<div class="panel-body">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Transaction Reference</th>
+        <th>Value Date</th>
+        <th>Payer Name</th>
+        <th>Payer Account</th>
+        <th>Payee Name</th>
+        <th>Payee Account</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of transactions | async">
+        <td>{{transaction.id}}</td>
+
+        <td colspan="7" *ngIf="transaction.rawPayment; else displayAll ">
+          <div class="d-flex justify-content-center">
+            <div id="raw" class="collapse">
+              <label><b>Raw Transaction: </b></label> {{ transaction.rawPayment }}
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button (click)="toggleButtonContent()" data-toggle="collapse" data-target="#raw" class="btn btn-primary outline">
+              {{btncontent}}
+            </button>
+          </div>
+        </td>
+
+        <ng-template #displayAll>
+          <td>{{transaction.transacRef}}</td>
+          <td>{{transaction.date}}</td>
+          <td>{{transaction.payerName}}</td>
+          <td>{{transaction.payerAccount}}</td>
+          <td>{{transaction.payeeName}}</td>
+          <td>{{transaction.payeeAccount}}</td>
+          <td>{{transaction.amount}}</td>
+        </ng-template>
+        <td>{{transaction.status}}</td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

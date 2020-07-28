@@ -1,0 +1,14 @@
+.outline {
+    background-color: transparent;
+    color: inherit;
+    transition: all .25s;
+}
+
+.btn-primary.outline {
+    color: #007bff;
+}
+
+.btn-primary.outline:hover{
+    color: #fff;
+    background-color: #007bff;
+}

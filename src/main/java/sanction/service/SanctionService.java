@@ -15,34 +15,25 @@ public class SanctionService {
 
 	@Autowired
 	private DistanceAlgoService algoservice;
-	@Autowired
-	private TransactionRepository transactionRepository;
+
 	@Autowired
 	private KeywordRepository keywordRepository;
 
-	public void screenAll() {
+	public void screen(Transaction t) {
 
-		List<Transaction> transactions = transactionRepository.findByStatus("Valid Pass");
+		double payeePercent = getPercent(t.getPayeeName());
+		double payerPercent = getPercent(t.getPayerName());
 
-		for (Transaction t : transactions) {
+		System.out.println("PayeePercent =" + payeePercent);
+		System.out.println("PayerPercent =" + payerPercent);
 
-			double payeePercent = getPercent(t.getPayeeName());
-			double payerPercent = getPercent(t.getPayerName());
+		double max = 0;
+		max = payerPercent > payeePercent ? payerPercent : payeePercent;
 
-			System.out.println("PayeePercent =" + payeePercent);
-			System.out.println("PayerPercent =" + payerPercent);
+		System.out.println("Final percent = " + max);
 
-			double max = 0;
-			max = payerPercent > payeePercent ? payerPercent : payeePercent;
-
-			System.out.println("Final percent = " + max);
-
-			t.setStatus(decideStatus(max));
-			System.out.println(t.getStatus());
-			
-			transactionRepository.save(t);
-
-		}
+		t.setStatus(decideStatus(max));
+		System.out.println(t.getStatus());
 
 	}
 

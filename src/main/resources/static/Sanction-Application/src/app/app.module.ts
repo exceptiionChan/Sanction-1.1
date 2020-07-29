@@ -5,13 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ScreenTransactionComponent } from './screen-transaction/screen-transaction.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TransactionListComponent,    
-    ScreenTransactionComponent
+    TransactionListComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,23 +4,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import sanction.model.Transaction;
 import sanction.repository.TransactionRepository;
-import sanction.service.SanctionService;
 import sanction.service.ValidationService;
 
 @Component
 public class TextFileReader {
 	@Autowired
 	private ValidationService ts;
-	@Autowired
-	private SanctionService ss;
+
 	@Autowired
 	private TransactionRepository transactionRepository;
 
@@ -57,11 +53,11 @@ public class TextFileReader {
 	            t.setAmount(splittedData[3]);          
             }
                                                
-            ts.validate(t);            
+            ts.validate(t);             
             transactionRepository.save(t);           
         }	    
-        	   
-        ss.screenAll();
+	    					
+		
 	    //Close Resources
 	    reader.close();
 	    fr.close();

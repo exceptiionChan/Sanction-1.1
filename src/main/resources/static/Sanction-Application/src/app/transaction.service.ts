@@ -20,8 +20,8 @@ export class TransactionService {
     return this.http.get(`${this.baseUrl}/screen`);
   }
 
-  // getTransaction(id: number): Observable<any> {
-  //   return this.http.get(`${this.baseUrl}/${id}`);
-  // }
+  getScreenedTransaction(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/screen/${id}`);
+  }
 
 }

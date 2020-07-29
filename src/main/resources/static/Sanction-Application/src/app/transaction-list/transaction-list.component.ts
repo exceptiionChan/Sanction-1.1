@@ -1,8 +1,8 @@
-import { Observable } from "rxjs";
-import { TransactionService } from "../transaction.service";
-import { Transaction } from "../transaction";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
+import { Transaction } from '../transaction';
+import { TransactionService } from '../transaction.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-transaction-list',
@@ -12,11 +12,12 @@ import { Router } from '@angular/router';
 export class TransactionListComponent implements OnInit {
 
   transactions: Observable<Transaction[]>;
+  transaction: Transaction;
   btncontent:string = "Show Details";
   isClicked: boolean = false;
 
   constructor(private transactionService: TransactionService,
-    private router: Router) { }
+    private router: Router) { }  
 
   ngOnInit() {
     this.reloadData();
@@ -25,7 +26,11 @@ export class TransactionListComponent implements OnInit {
   reloadData() {
     this.transactions = this.transactionService.getTransactionsList();
   }
-  
+
+  screenAll() {
+    this.transactions = this.transactionService.getAllScreened();    
+  }
+
   toggleButtonContent(){
     this.isClicked = !this.isClicked;
     if(this.isClicked)
@@ -33,9 +38,10 @@ export class TransactionListComponent implements OnInit {
     else
       this.btncontent ="Show Details"   
   }
-  
-  // route() {
-  //   this.router.navigate(['/details', this.transaction]);
-  // } 
 
+  screenTransaction(id: number) {
+    this.transactionService.getScreenedTransaction(id)
+      .subscribe((status) => this.transaction.status = status)
+      this.reloadData();
+  }
 }

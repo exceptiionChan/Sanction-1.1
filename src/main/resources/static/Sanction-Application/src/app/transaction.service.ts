@@ -9,6 +9,7 @@ import { Transaction } from './transaction';
 export class TransactionService {
 
   private baseUrl = 'http://localhost:8080/springboot-crud-rest';
+  sharedResult: Observable<Transaction[]>;
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,18 @@ export class TransactionService {
 
   getScreenedTransaction(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/screen/${id}`);
+  }
+
+  searchTransactions(transacRef: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/search/${transacRef}`);
+  }
+
+  getAllResultsScreened(transacRef: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/search/screen/${transacRef}`);
+  }
+
+  getFiltered(status: string): Observable<any>{
+    return this.http.get(`${this.baseUrl}/filter/${status}`);
   }
 
 }

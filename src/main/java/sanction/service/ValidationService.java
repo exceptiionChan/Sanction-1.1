@@ -22,13 +22,18 @@ public class ValidationService {
 	public void validate(Transaction t) {
 
 		boolean isValid = true;
-		
+
 		System.out.println(t.toString());
 		if (t.getTransacRef() == null || !checkNumber(t.getTransacRef())) {
 			isValid = false;
 			System.out.println("Transaction Ref not aplanumeric");
 		}
 
+		if (t.getDate() == null || !isCurrDate(t.getDate())) {
+			isValid = false;
+			System.out.println("Date not Current");
+		}
+		
 		if (t.getDate() == null || !checkDateFmt(t.getDate())) {
 			isValid = false;
 			System.out.println("Date Format");
@@ -37,14 +42,6 @@ public class ValidationService {
 				t.setDate(formatDate(t.getDate()));
 			} catch (ParseException e) {
 			}
-		}
-
-		try {
-			if (t.getDate() == null || !isCurrDate(t.getDate())) {
-				isValid = false;
-				System.out.println("Date not Current");
-			}
-		} catch (ParseException e) {
 		}
 
 		if (t.getPayerName() == null || !checkName(t.getPayerName())) {
@@ -122,12 +119,16 @@ public class ValidationService {
 		return date;
 	}
 
-	private boolean isCurrDate(String date) throws ParseException {
+	private boolean isCurrDate(String date) {
 		LocalDate currentdate = LocalDate.now();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		String d = dtf.format(currentdate);
 
-		return formatDate(date).equals(d);
+		try {
+			return formatDate(date).equals(d);
+		} catch (ParseException e) {
+			return false;
+		}
 	}
 
 	private boolean checkAlphaNumeric(String str) {

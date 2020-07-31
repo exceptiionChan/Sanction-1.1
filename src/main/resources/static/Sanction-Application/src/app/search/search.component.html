@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <div class="d-flex h-100">
             <div class="align-self-start mr-auto">
-                <h2>All Transactions</h2>
+                <h2>Search Results</h2>
             </div>
             <div class="align-self-end ml-auto">
                 <button (click)="screenAll()" type="button" class="btn btn-primary outline" style="margin: 10px 20px;">
@@ -12,8 +12,8 @@
         </div>
     </div>
     <div class="panel-body">
-        <!--Table-->
-        <table class="table table-hover">
+
+        <table class="table table-hover" *ngIf="(transactions | async)?.length>0; else displayNotFound">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -73,6 +73,13 @@
 
                 </tr>
             </tbody>
-        </table>        
+        </table>
+
+        <ng-template #displayNotFound>
+            <div class="d-flex justify-content-center"
+                style="margin-top:25vh">
+                <h5>Sorry no results found!</h5>
+            </div>
+        </ng-template>
     </div>
 </div>

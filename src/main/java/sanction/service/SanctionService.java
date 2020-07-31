@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import sanction.model.Keyword;
 import sanction.model.Transaction;
 import sanction.repository.KeywordRepository;
-import sanction.repository.TransactionRepository;
 
 @Service
 public class SanctionService {

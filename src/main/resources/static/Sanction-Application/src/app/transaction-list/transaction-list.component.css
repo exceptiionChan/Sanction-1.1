@@ -1,14 +1,35 @@
 .outline {
     background-color: transparent;
-    color: inherit;
+    color: #004692;
     transition: all .25s;
-}
-
-.btn-primary.outline {
-    color: #007bff;
 }
 
 .btn-primary.outline:hover{
     color: #fff;
-    background-color: #007bff;
+    background: #004e92;  /* fallback for old browsers */
+    
+}
+
+.btn-primary{
+    border-color: #004e92;
+}
+
+.color-red{
+    color: red;
+}
+
+.color-orange{
+    color: #ff9000;
+}
+
+.color-yellow{
+    color:#ffd500;
+}
+
+.color-lgreen{
+    color: #57fe01;
+}
+
+.color-green{
+    color: #009a00;
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sanction.exception.ResourceNotFoundException;
 import sanction.model.Transaction;
 import sanction.repository.TransactionRepository;
+import sanction.service.FileService;
 import sanction.service.SanctionService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -21,6 +22,9 @@ public class TransactionController {
 
 	@Autowired
 	private SanctionService sanctionService;
+	
+	@Autowired
+	private FileService fileService;
 
 	@GetMapping("/transactions")
 	public List<Transaction> getAllTransactions() {
@@ -59,5 +63,30 @@ public class TransactionController {
 	public List<Transaction> findByStatus(@PathVariable(value = "status") String status) {
 		return transactionRepository.findByStatus(status);		
 	}
+	
+	@GetMapping("/uploaded")
+	public List<Transaction> getFileTransactions() {		
+		System.out.println(fileService.getStartTransacId());
+		return transactionRepository.findByIdGreaterThanEqual(fileService.getStartTransacId());		
+	}
+	
+//	@GetMapping("/uploaded/screen")
+//	public List<Transaction> getAllFileScreened() {		
+//		
+//
+//		List<Transaction> transactions = transactionRepository.findFileFiltered(fileService.getStartTransacId(),"Validate Pass");
+//		for (Transaction t : transactions) {
+//			sanctionService.screen(t);
+//			transactionRepository.save(t);
+//		}		
+//		
+//		return transactionRepository.findByIdGreaterThanEqual(fileService.getStartTransacId());		
+//	}
+//	
+//	@GetMapping("/uploaded/filter/{status}")
+//	public List<Transaction> getFileFiltered(@PathVariable(value = "status") String status) {		
+//		
+//		return transactionRepository.findFileFiltered(fileService.getStartTransacId(), status);		
+//	}
 
 }

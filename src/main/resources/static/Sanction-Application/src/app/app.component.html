@@ -9,14 +9,14 @@
          <a routerLink="upload" class="nav-link" routerLinkActive="active">Upload</a>
       </li>
    </ul>
-    <!--<form class="form-inline ml-auto" autocomplete="off">
+   <!--<form class="form-inline ml-auto" autocomplete="off">
       <input [(ngModel)]="transacRef" required class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button (click)="clear()" routerLinkActive="active" [routerLink]="['search',transacRef]" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
    </form>-->
-  <ul class="navbar-nav ml-auto">
+   <ul class="navbar-nav ml-auto">
       <div class="search-container">
          <form autocomplete="off">
-         <input type="text" placeholder="" name="search" [(ngModel)]="transacRef" required>
+            <input type="text" placeholder="" name="search" [(ngModel)]="transacRef" required>
             <button (click)="clear()" routerLinkActive="active" [routerLink]="['search',transacRef]" type="submit">
                Search</button>
          </form>
@@ -29,15 +29,16 @@
       <select (change)="selectChangeHandler($event)" class="shadow">
          <option selected disabled>Filter...</option>
          <option value="Validation Pass">Validation Pass</option>
-         <option value="Validation Fail" >Validation Fail</option>
-         <option value="Screen Pass" >Screen Pass</option>
-         <option value="Possible Screen Pass" >Possible Screen Pass</option>
-         <option value="Screen Fail" >Screen Fail</option>
+         <option value="Validation Fail">Validation Fail</option>
+         <option value="Screen Pass">Screen Pass</option>
+         <option value="Possible Screen Pass">Possible Screen Pass</option>
+         <option value="Screen Fail">Screen Fail</option>
       </select>
-   </span>   
+   </span>
+   <!-- <p>This is {{status}}</p> -->
    <div class="card shadow p-3 mb-5 rounded">
       <div class="card-body">
-         <!-- <router-outlet [status]="filterValue"></router-outlet> -->
+         <!-- <router-outlet [status]="status"></router-outlet> -->
          <router-outlet></router-outlet>
       </div>
    </div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +10,15 @@ import {Router} from '@angular/router';
 export class AppComponent {
   title = 'Sanction-Application';
   transacRef:string;
-  filterValue:string = '';
+  status:string = '';
   
-  constructor(router: Router){}
+  constructor(router: Router, private route:ActivatedRoute){}
 
   clear(){
     this.transacRef = null;
   }
 
   selectChangeHandler(event:any){
-    this.filterValue = event.target.value;
+    this.status = event.target.value;
   }
 }

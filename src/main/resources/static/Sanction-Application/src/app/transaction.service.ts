@@ -29,12 +29,25 @@ export class TransactionService {
     return this.http.get(`${this.baseUrl}/search/${transacRef}`);
   }
 
+  //
   getAllResultsScreened(transacRef: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/search/screen/${transacRef}`);
   }
 
   getFiltered(status: string): Observable<any>{
     return this.http.get(`${this.baseUrl}/filter/${status}`);
+  }
+
+  getFileTransactions(): Observable<any>{
+    return this.http.get(`${this.baseUrl}/uploaded`);
+  }
+
+  getFileFiltered(status: string): Observable<any>{
+    return this.http.get(`${this.baseUrl}/uploaded/filter/${status}`);
+  }
+
+  getAllFileScreened(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/uploaded/screen`);
   }
 
 }

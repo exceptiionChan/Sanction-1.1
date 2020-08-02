@@ -13,8 +13,7 @@ import org.springframework.http.HttpStatus;
 
 import sanction.service.FileService;
 
-
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 public class FileController {
  

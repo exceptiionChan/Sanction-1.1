@@ -15,7 +15,7 @@ export class TransactionListComponent implements OnInit {
   transaction: Transaction;
   btncontent:string = "Show Details";
   isClicked: boolean = false;
-  @Input() status:string;
+  // @Input() status:string;
 
   constructor(private transactionService: TransactionService,
     private router: Router) { }  
@@ -46,10 +46,9 @@ export class TransactionListComponent implements OnInit {
       location.reload();
   }
 
-  filter(){
-    this.transactionService.getFiltered(status)
-    .subscribe((t) => this.transactions = t);
-    location.reload();
-  }
-
+  // filter(){
+  //   this.transactionService.getFiltered(status)
+  //   .subscribe((t) => this.transactions = t);
+  //   location.reload();
+  // }
 }

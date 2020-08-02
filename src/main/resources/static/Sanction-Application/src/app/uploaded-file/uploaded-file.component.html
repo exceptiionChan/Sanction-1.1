@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <div class="d-flex h-100">
             <div class="align-self-start mr-auto">
-                <h2>All Transactions</h2>
+                <h2>Uploaded File Transactions</h2>
             </div>
             <div class="align-self-end ml-auto">
                 <button (click)="screenAll()" type="button" class="btn btn-primary outline" style="margin: 10px 20px;">
@@ -27,7 +27,8 @@
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody>             
+
                 <tr *ngFor="let transaction of transactions | async">
                     <td>{{transaction.id}}</td>
 
@@ -57,10 +58,10 @@
 
 
                     <td [ngClass]="{'color-red': transaction.status === 'Screen Fail',
-                                    'color-orange': transaction.status === 'Validate Fail',
-                                    'color-yellow': transaction.status === 'Validate Pass',
-                                    'color-lgreen': transaction.status === 'Possible Screen Pass',
-                                    'color-green': transaction.status === 'Screen Pass'}">
+                        'color-orange': transaction.status === 'Validate Fail',
+                        'color-yellow': transaction.status === 'Validate Pass',
+                        'color-lgreen': transaction.status === 'Possible Screen Pass',
+                        'color-green': transaction.status === 'Screen Pass'}">
                         <div class="d-flex align-items-center">
                             <b> {{transaction.status}}</b>
 
@@ -71,8 +72,8 @@
                         </div>
                     </td>
 
-                </tr>
+                </tr>     
             </tbody>
-        </table>
+        </table>        
     </div>
 </div>

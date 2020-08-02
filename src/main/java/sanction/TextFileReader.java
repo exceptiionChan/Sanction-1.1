@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import sanction.model.Transaction;
 import sanction.repository.TransactionRepository;
+import sanction.service.FileService;
 import sanction.service.ValidationService;
 
 @Component
@@ -19,17 +20,19 @@ public class TextFileReader {
 
 	@Autowired
 	private TransactionRepository transactionRepository;
+	
+	@Autowired
+	private FileService fileService;
 
-	public void getFileTransactions() throws IOException {
+	public long getFileTransactions(String filePath) throws IOException {
 		
-		
-	    // Open text file.
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("Transactions1.txt").getFile());
+		File file = new File(filePath);
 	    FileReader fr = new FileReader(file);
         BufferedReader reader = new BufferedReader(fr);	
 	    String line;	 	 
-        
+        boolean isFirstTransac = true;        
+	    long firstTransacId = 0;
+	    
 	    // Read lines from file
 	    while((line = reader.readLine()) != null){
 	        
@@ -44,23 +47,39 @@ public class TextFileReader {
             if(splittedData.length != 4)
             	t.setRawPayment(line);           
             else {
-	            t.setTransacRef(splittedData[0].substring(0, 12));
-	            t.setDate(splittedData[0].substring(12, 20));
-	            t.setPayerName(splittedData[0].substring(20));  
-	            t.setPayerAccount(splittedData[1].substring(0, 12));                                                                                                             
-	            t.setPayeeName(splittedData[1].substring(12));                              
-	            t.setPayeeAccount(splittedData[2]);  
-	            t.setAmount(splittedData[3]);          
+            	try {
+		            t.setTransacRef(splittedData[0].substring(0, 12));
+		            t.setDate(splittedData[0].substring(12, 20));
+		            t.setPayerName(splittedData[0].substring(20));  
+		            t.setPayerAccount(splittedData[1].substring(0, 12));                                                                                                             
+		            t.setPayeeName(splittedData[1].substring(12));                              
+		            t.setPayeeAccount(splittedData[2]);  
+		            t.setAmount(splittedData[3]);   
+            	}
+            	catch(Exception e) {
+            		t.setRawPayment(line);
+            	}
             }
-                                               
+            
+                                
+            
             ts.validate(t);             
-            transactionRepository.save(t);           
-        }	    
-	    					
-		
+            transactionRepository.save(t);  
+            
+            if(isFirstTransac) {
+            	firstTransacId = t.getId();
+            	isFirstTransac = false;
+            }   
+            
+        }	    	    		 			  
+	    
 	    //Close Resources
 	    reader.close();
 	    fr.close();
+	    	    
+	    fileService.archiveFile();
+	    
+	    return firstTransacId;
 	    	  
     }
 }

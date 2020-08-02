@@ -57,7 +57,7 @@ public class SanctionService {
 			return "Screen Pass";
 
 		else if (percent > 0.75 && percent <= 0.85) // region of possible sanction hits
-			return "Possible Screen Pass";
+			return "Possible Screen Fail";
 
 		else // sanction hit
 			return "Screen Fail";

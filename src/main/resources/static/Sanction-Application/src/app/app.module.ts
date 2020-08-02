@@ -9,19 +9,24 @@ import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
 import { UploadComponent } from './upload/upload.component';
+import { UploadedFileComponent } from './uploaded-file/uploaded-file.component';
+import { FilteredTransactionsComponent } from './filtered-transactions/filtered-transactions.component';
+//import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
     AppComponent,
     TransactionListComponent,
     SearchComponent,
-    UploadComponent,  ],
+    UploadComponent,
+    UploadedFileComponent,
+    FilteredTransactionsComponent,  ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    FileUploadModule
+    FileUploadModule,    
   ],
   providers: [],
   bootstrap: [AppComponent]
